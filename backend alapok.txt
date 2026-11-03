@@ -1,0 +1,223 @@
+
+
+	request
+kliens 	  ->	  web
+
+	req.		req.
+kliens  ->   frontend   ->   	végpontok    middleware   policy   controllers   services    models              <->     adatbázis
+	<-		<-
+	res.		res.
+	
+
+
+laravel 13-as verzió
+
+
+
+
+https://getcomposer.org/
+
+
+
+laravel projekt létrehozása:
+
+composer create-project laravel/laravel Bemutato
+cd Bemutato
+php artisan serve
+
+
+
+adatmegjelenítők
+Postman
+Insomnia
+Insomnium
+
+
+
+gyökérkönyvtárban új könyvtár -> docs
+
+
+vendor könyvtár törlése
+
+
+újragenerálás
+composer install
+
+
+
+.env kulcs újragenerálás
+php artisan key:generate
+
+php artisan list
+
+
+php artisan stub:publish
+
+php artisan install:api
+
+
+
+
+
+http://github.com/backend2026N
+
+
+https://szit.hu/doku.php?id=oktatas:web:laravel:laravel_utvonalak_vegpontok
+
+
+
+
+
+
+
+
+
+
+
+11-03
+
+adatbázis kezelés egyébként modellen keresztül megy
+most viszont kontrollerből közvetlen (ez egyébként nem jó)
+alapból a kontroller mögött van egy policy ami megvizsgálja a jogosultságot, utána egy modell
+
+
+php artisan install:api
+n
+
+
+docs mappába -> .env.example
+
+
+
+.env
+
+DB_CONNECTION=mysql
+
+
+komment jelek kivétele
+ip cím 172.16.16.148
+
+
+DB_CONNECTION=mysql
+DB_HOST=172.16.16.148
+DB_PORT=3306
+DB_DATABASE=toth_dbpractice
+DB_USERNAME=toth
+DB_PASSWORD=gergely
+
+
+
+
+
+php artisan make:migration create_drinks_table
+-|packages|-
+-|types|-
+
+
+migrációs fájlokban mezők hozzáadása $table->
+
+
+
+php artisan migrate
+y
+
+
+
+
+seeder fájl
+
+
+a run metódus fut le, egy Test user generálás van benne alapból
+
+
+php artisan db:seed
+
+
+
+új seeder létrehozása
+php artisan make:seeder DrinkSeeder    (kötelező a Seeder-t tartalmazza a név)
+
+üres run metódus jön létre
+ebbe írjuk meg a seedert
+sql állomány bárhova a projektbe  -> itt most a seeder-be
+
+(egyébként ez factory-kkal oldanánk meg)
+
+
+
+use Illuminate\Support\Facades\DB;
+
+
+fájlbeolvasás
+
+public function run(): void
+    {
+        $sql = file_get_contents(__DIR__."/pub.sql");
+
+        DB::unprepared($sql);
+    }
+
+
+
+php artisan db:seed --class=DrinkSeeder
+
+
+
+adatbázis eldobása és újramigrálása
+php artisan migrate:fresh
+
+
+
+DatabaseSeeder  -> központi seeder, seederek sorrendjének meghatározása
+
+helyi call metódusban (asszociatív*) tömbök átadása      *objektumok felsorolása
+jelen esetben sima tömb
+
+
+public function run(): void
+    {
+        $this->call([
+            DrinkSeeder::class
+        ]);
+    }
+
+
+php artisan db:seed
+
+
+
+
+
+
+
+
+
+/routes/api.php
+
+use App\Http\Controllers\api\DrinkController;
+
+
+php artisan make:controller api/DrinkController
+
+
+
+php artisan serve
+
+insomnium
+
+
+
+
+
+
+
+php artisan make:controller api/PubController
+
+
+
+
+
+
+php artisan make:model Drink
+php artisan make:model Type
+php artisan make:model Package
