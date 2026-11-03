@@ -221,3 +221,14 @@ php artisan make:controller api/PubController
 php artisan make:model Drink
 php artisan make:model Type
 php artisan make:model Package
+
+
+
+
+
+
+
+---------------------------
+
+
+
